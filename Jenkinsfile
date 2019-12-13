@@ -11,7 +11,7 @@ pipeline {
                     input('Continue?')
                  }
                  }                  
-                  stage('Three: Sonarqube') {
+                  stage('Three: SonarQube') {
                    environment {
                    scannerHome = tool 'SonarQube'
                               }
