@@ -20,22 +20,24 @@ pipeline {
                              sh "${scannerHome}/bin/sonar-scanner"
                            }
                               timeout(time: 10, unit: 'MINUTES') 
-                              {
+                          {
                               waitForQualityGate abortPipeline: true
                                                                      }
                             }
                        }    
                   
                          stage('Four: Build image') {
- 
+                                  Steps{
         app = docker.build("https://github.com/RyanHughe205/coursework_2")                      
                   }    
-
+                         }
 
     stage('Five: Push image') {
+             Steps {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
+        }
         }
     }
 }
