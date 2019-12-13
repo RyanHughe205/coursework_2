@@ -6,21 +6,25 @@ pipeline {
                      echo 'Hello this is Ryan'
                  }
                  }
-                 stage('Two') {
+                 stage('Two: Authentication') {
                  steps {
                     input('Continue?')
                  }
-                 }
-                 stage('Three') {
-                 when {
-                       not {
-                            branch "master"
-                       }
-                 }
-                 steps {
-                       echo "Hello world"
-                 }
-                 }
+                 }                  
+                  stage('Three: Sonarqube') {
+                   environment {
+                   scannerHome = tool 'SonarQube'
+                              }
+                     steps {
+                       withSonarQubeEnv('sonarqube') {
+                             sh "${scannerHome}/bin/sonar-scanner"
+                           }
+                              timeout(time: 10, unit: 'MINUTES') 
+                              {
+                              waitForQualityGate abortPipeline: true
+                                                                     }
+                     }
+
                  
          }     
 }
