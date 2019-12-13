@@ -26,23 +26,6 @@ pipeline {
                             }
                        } 
          }
-                  node {
-                           def app
-                           
                   
-                         stage('Four: Build image') {
-                                
-        app = docker.build("https://github.com/RyanHughe205/coursework_2")                      
-                  }    
-                         
 
-    stage('Five: Push image') {
-            
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-        
-        }
-    }
-                  }
 }
